@@ -1,5 +1,5 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { SearchCriteria, LocationSuggestion } from '../types';
 import { STORAGE_KEY } from '../constants';
 import { searchLocations } from '../services/amadeusService';
@@ -24,7 +24,6 @@ const LocationInput: React.FC<{
   const [isSearching, setIsSearching] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isSelectedRef = useRef(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (value && !query) {
@@ -79,7 +78,6 @@ const LocationInput: React.FC<{
     <div className="relative flex-1" ref={dropdownRef}>
       <div className="relative h-full">
         <input
-          ref={inputRef}
           required={required}
           type="text"
           placeholder={placeholder}
@@ -98,18 +96,8 @@ const LocationInput: React.FC<{
         )}
       </div>
 
-      {showDropdown && suggestions.length > 0 && inputRef.current && createPortal(
-        <div
-          className="absolute z-[150] left-0 md:left-auto right-0 md:right-auto md:min-w-[320px] w-full mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden backdrop-blur-xl"
-          style={{
-            position: 'absolute',
-            top: inputRef.current.getBoundingClientRect().bottom + window.scrollY,
-            left: inputRef.current.getBoundingClientRect().left + window.scrollX,
-            width: inputRef.current.offsetWidth,
-            minWidth: '320px',
-            zIndex: 150
-          }}
-        >
+      {showDropdown && suggestions.length > 0 && (
+        <div className="absolute z-[300] left-0 md:left-auto right-0 md:right-auto md:min-w-[320px] w-full mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden backdrop-blur-xl ring-1 ring-black/5">
           <div className="max-h-64 overflow-y-auto no-scrollbar">
             {suggestions.map((loc) => (
               <button
@@ -132,8 +120,7 @@ const LocationInput: React.FC<{
               </button>
             ))}
           </div>
-        </div>,
-        document.body
+        </div>
       )}
     </div>
   );
@@ -168,7 +155,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
   };
 
   return (
-    <div className="glass-panel rounded-xl p-2 shadow-sm space-y-2">
+    <div className="glass-panel rounded-2xl p-2 shadow-sm space-y-2 relative">
       <div className="flex flex-wrap items-center gap-2 px-2 pb-1 border-b border-slate-100 dark:border-white/5">
         <div className="flex bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg">
           <button 
@@ -200,7 +187,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row gap-2">
-        <div className="flex-1 flex flex-col md:flex-row items-stretch md:items-center gap-px bg-slate-100 dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/5 relative">
+        <div className="flex-1 flex flex-col md:flex-row items-stretch md:items-center gap-px bg-slate-100 dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/5 relative z-20">
           <LocationInput 
             label="Origin" 
             placeholder="From where?" 
@@ -261,7 +248,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
         <button 
           disabled={isLoading} 
           type="submit" 
-          className="h-11 px-8 bg-accent hover:bg-accent-hover text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-accent/20 disabled:opacity-50 active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap"
+          className="h-11 px-8 bg-accent hover:bg-accent-hover text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-accent/20 disabled:opacity-50 active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap z-20"
         >
           {isLoading ? (
             <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>

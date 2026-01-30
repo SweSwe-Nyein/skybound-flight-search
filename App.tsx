@@ -141,8 +141,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen text-slate-900 dark:text-f8fafc pb-12">
-      {/* Header Bar */}
-      <nav className="glass-panel sticky top-0 z-50 py-3 px-4 md:px-8 border-b border-slate-200 dark:border-white/5">
+      <nav className="glass-panel sticky top-0 z-[100] py-3 px-4 md:px-8 border-b border-slate-200 dark:border-white/5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center shadow-lg shadow-accent/20">
@@ -176,7 +175,7 @@ const App: React.FC = () => {
       </nav>
 
       <main className="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
-        <section className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <section className="relative z-[90] animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <SearchForm onSearch={handleSearch} isLoading={isLoading} />
         </section>
 
@@ -188,9 +187,9 @@ const App: React.FC = () => {
         )}
 
         {(flights.length > 0 || isLoading) && (
-          <div className="grid grid-cols-12 gap-6">
+          <div className="grid grid-cols-12 gap-6 relative z-10">
             <aside className="col-span-12 lg:col-span-3 space-y-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <div className="glass-panel rounded-xl p-6 shadow-sm">
+              <div className="glass-panel rounded-2xl p-6 shadow-sm">
                 <SidebarFilters 
                   filters={filters}
                   setFilters={setFilters}
@@ -202,7 +201,7 @@ const App: React.FC = () => {
             </aside>
 
             <div className="col-span-12 lg:col-span-9 space-y-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <div className="glass-panel rounded-xl p-1 overflow-hidden shadow-sm">
+              <div className="glass-panel rounded-2xl p-1 overflow-hidden shadow-sm">
                 <PriceChart 
                   data={chartData} 
                   onBucketClick={(min, max) => setFilters(prev => ({...prev, durationRange: {min, max}}))}
@@ -309,8 +308,8 @@ const App: React.FC = () => {
         )}
 
         {!flights.length && !isLoading && !error && (
-          <div className="flex flex-col items-center justify-center py-32 glass-panel rounded-2xl border-dashed border-2 border-slate-200 dark:border-slate-800">
-             <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mb-6">
+          <div className="flex flex-col items-center justify-center py-32 glass-panel rounded-3xl border-dashed border-2 border-slate-200 dark:border-slate-800 relative z-10">
+             <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
                <svg className="w-8 h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
              </div>
              <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">Ready to explore?</h3>
@@ -320,8 +319,8 @@ const App: React.FC = () => {
       </main>
 
       {comparedFlightIds.length > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-lg px-4 animate-fade-in">
-          <div className="glass-panel bg-white/95 dark:bg-slate-900/95 rounded-xl p-3 flex items-center justify-between border border-accent/20 shadow-2xl">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[150] w-full max-w-lg px-4 animate-fade-in">
+          <div className="glass-panel bg-white/95 dark:bg-slate-900/95 rounded-2xl p-3 flex items-center justify-between border border-accent/20 shadow-2xl">
             <div className="flex items-center gap-3 pl-2">
               <span className="flex h-2 w-2 rounded-full bg-accent animate-ping"></span>
               <span className="text-[10px] font-black uppercase tracking-widest text-accent">{comparedFlightIds.length}/2 Selected</span>
