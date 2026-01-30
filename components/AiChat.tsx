@@ -26,7 +26,8 @@ const AiChat: React.FC = () => {
     setIsTyping(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: [...messages, { role: 'user', text: userMsg }].map(m => ({
@@ -67,11 +68,10 @@ const AiChat: React.FC = () => {
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-3 rounded-2xl text-xs font-medium leading-relaxed ${
-                  msg.role === 'user' 
-                    ? 'bg-accent text-white rounded-tr-none' 
+                <div className={`max-w-[85%] p-3 rounded-2xl text-xs font-medium leading-relaxed ${msg.role === 'user'
+                    ? 'bg-accent text-white rounded-tr-none'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-tl-none'
-                }`}>
+                  }`}>
                   {msg.text}
                 </div>
               </div>
@@ -92,23 +92,29 @@ const AiChat: React.FC = () => {
               <input
                 type="text"
                 placeholder="Ask me anything..."
-                className="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 px-4 py-2.5 rounded-xl text-xs outline-none focus:ring-2 focus:ring-accent/20 transition-all font-semibold"
+                className="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 px-4 py-2.5 rounded-xl text-xs outline-none focus:ring-2 focus:ring-accent/20 transition-all font-semibold dark:text-white"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
               />
-              <button 
+              <button
                 onClick={handleSendMessage}
                 disabled={isTyping || !input.trim()}
                 className="bg-accent hover:bg-accent-hover text-white p-2.5 rounded-xl transition-all disabled:opacity-50 shadow-lg shadow-accent/20"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                <svg
+                  className="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                </svg>              
               </button>
             </div>
           </div>
         </div>
       ) : (
-        <button 
+        <button
           onClick={() => setIsOpen(true)}
           className="w-14 h-14 bg-accent text-white rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-accent/30 group relative"
         >
