@@ -6,6 +6,7 @@ import SidebarFilters from './components/SidebarFilters';
 import PriceChart from './components/PriceChart';
 import SkeletonLoader from './components/SkeletonLoader';
 import ComparisonModal from './components/ComparisonModal';
+import AiChat from './components/AiChat';
 import { 
   NormalizedFlight, 
   SearchCriteria, 
@@ -317,6 +318,8 @@ const App: React.FC = () => {
           </div>
         )}
       </main>
+
+      <AiChat />
 
       {comparedFlightIds.length > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[150] w-full max-w-lg px-4 animate-fade-in">
